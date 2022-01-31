@@ -18,9 +18,6 @@ def solution(progresses, speeds):
     function = [0] * (max_day+1)
     function[days[0]] += 1
     for i in range(1,len(days)):
-        # if days[i-1] > days[i]:
-        #     function[days[i-1]] += 1
-        # elif days[i-1] <= days[i]:
         max_day = max(days[:i+1])
         function[max_day] += 1
     for func in function:
