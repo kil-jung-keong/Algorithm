@@ -11,12 +11,10 @@
 
 
 import sys
+from collections import deque
 # 입력
 n, m = map(int, sys.stdin.readline().rstrip().split())
-data = []
-for _ in range(m):
-    data.append(list(sys.stdin.readline().rstrip()))
-print(data)
+data = [list(input().rstrip()) for _ in range(n)]
 
 # 상하좌우
 dx = [-1,1,0,0]
@@ -26,11 +24,11 @@ dy = [0,0,-1,1]
 queue = []
 
 # 방문 맵
-visited = [[[[False] * m for _ in range(n)] 
-for _ in range(m)] for _ in range(n)]
+visited = [[[[False] * m for _ in range(n)] for _ in range(m)] for _ in range(n)]
 
 # R,B,O 위치
 def init():
+    rx, ry, bx, by = 0, 0, 0, 0
     for i in range(n):
         for j in range(m):
             if data[i][j] == 'R':
@@ -45,6 +43,7 @@ def init():
 # 이동
 def move(x,y,dx,dy):
     cnt = 0
+    # 다음이 벽이거나 지금이 구멍일 때까지
     while data[x+dx][y+dy] != '#' and data[x][y] != 'O':
         x += dx
         y += dy
@@ -53,6 +52,7 @@ def move(x,y,dx,dy):
 
 # 조건 문
 def solve():
+    init()
     while queue:
         rx, ry, bx, by, depth = queue.pop(0)
         if depth > 10:
@@ -69,11 +69,11 @@ def solve():
                         nrx -= dx[i]
                         nry -= dy[i]
                     else:
-                        nrx -= dx[i]
-                        nry -= dy[i]
+                        nbx -= dx[i]
+                        nby -= dy[i]
                 if not visited[nrx][nry][nbx][nby]:
                     visited[nrx][nry][nbx][nby] = True
                     queue.append((nrx,nry,nbx,nby,depth+1))
     print(-1)
             
-
+solve()
